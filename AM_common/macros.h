@@ -1,0 +1,1 @@
+#define AM_COMMON AM_common
