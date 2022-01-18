@@ -3,4 +3,4 @@
 5d Chess compiler:
 converts 5dpgn to a json object
 
-uses json.hpp
+this project uses json.hpp and is compiled using c++17
