@@ -1,0 +1,21 @@
+[
+  {
+    "Name": "Standard",
+    "Timelines": {
+      "0L": [
+        "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR"
+      ]
+    }
+  },
+  {
+    "Name": "Standard - Turn Zero",
+    "Timelines": {
+      "0L": [
+        null,
+        "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR",
+	"rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR"
+      ],
+      "CosmeticTurnOffset":1
+    }
+  }
+]

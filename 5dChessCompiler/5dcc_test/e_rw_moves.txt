@@ -1,0 +1,17 @@
+{
+	"-0L":[
+		null,
+		"r*nbycbnr*/p*p*p*p*p*p*p*p*/8/8/8/8/P*P*P*P*P*P*P*P*/R*NBQK*BNR*",
+		"r*nbycbnr*/p*p*p*p*p*p*p*p*/8/8/8/8/P*P*P*P*P*P*P*P*/R*NBQK*BNR*",
+		"r*nbycbnr*/p*p*p*p*p*p*p*p*/8/8/8/5N2/P*P*P*P*P*P*P*P*/R*NBQK*B1R*",
+		"r*nbycb1r*/p*p*p*p*p*p*p*p*/5n2/8/8/5N2/P*P*P*P*P*P*P*P*/R*NBQK*B1R*"
+	],
+	"+0L":[
+		null,
+		"r*nbqk*bnr*/p*p*p*p*p*p*p*p*/8/8/8/8/P*P*P*P*P*P*P*P*/R*NBYCBNR*",
+		"r*nbqk*bnr*/p*p*p*p*p*p*p*p*/8/8/8/8/P*P*P*P*P*P*P*P*/R*NBYCBNR*",
+		"r*nbqk*bnr*/p*p*p*p*p*p*p*p*/8/8/8/5N2/P*P*P*P*P*P*P*P*/R*NBYCB1R*",
+		"r*nbqk*b1r*/p*p*p*p*p*p*p*p*/5n2/8/8/5N2/P*P*P*P*P*P*P*P*/R*NBYCB1R*"
+	],
+	"CosmeticTurnOffset":1
+}

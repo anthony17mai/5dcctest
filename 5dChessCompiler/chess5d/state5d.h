@@ -255,13 +255,11 @@ namespace game
 		inline chessboard* make_timeline_up(index_val T_index, bool is_white, _init... initializer)
 		{
 			chessboard* brd = new chessboard(initializer...);
+			color_pair pair = is_white ? color_pair(std::unique_ptr<chessboard>(brd), std::unique_ptr<chessboard>((chessboard*)nullptr)) : color_pair(std::unique_ptr<chessboard>((chessboard*)nullptr), std::unique_ptr<chessboard>(brd));
 			horizontal timeline;
-			if (is_white) 
-				timeline = horizontal({ color_pair(cb_ptr(brd), cb_ptr(nullptr)) });	//basically sets the newly created board to index T_index
-			else
-				timeline = horizontal({ color_pair(cb_ptr(nullptr), cb_ptr(brd)) });
+			timeline.push_back(std::move(pair));
 			timeline.shift_bw(T_index);
-			_board_list.push_back(timeline);
+			_board_list.push_back(std::move(timeline));
 			return brd;
 		}
 		/*
@@ -271,10 +269,11 @@ namespace game
 		inline chessboard* make_timeline_down(index_val T_index, bool is_white, _init... initializer)
 		{
 			chessboard* brd = new chessboard(initializer...);
-			color_pair pair = is_white ? color_pair(brd, nullptr) : color_pair(nullptr, brd);
-			horizontal timeline = horizontal({ pair });	//basically sets the newly created board to index T_index
+			color_pair pair = is_white ? color_pair(std::unique_ptr<chessboard>(brd), std::unique_ptr<chessboard>((chessboard*)nullptr)) : color_pair(std::unique_ptr<chessboard>((chessboard*)nullptr), std::unique_ptr<chessboard>(brd));
+			horizontal timeline;
+			timeline.push_back(std::move(pair));
 			timeline.shift_bw(T_index);
-			_board_list.push_front(timeline);
+			_board_list.push_front(std::move(timeline));
 			return brd;
 		}
 		/*
@@ -348,7 +347,7 @@ namespace game
 					//put the traveling piece in the new chessboard
 					const chessboard* t_cb = get_board(cm.to_coord());
 					chessboard* new_t_cb = push_timeline(cm.to_board.second, *t_cb);
-					new_f_cb->at(cm.to) = pc;
+					new_t_cb->at(cm.to) = pc;
 				}
 			}
 			else
@@ -371,20 +370,26 @@ namespace game
 				}
 
 				//remove the traveling piece
+				std::string _n_f, _n_t;
+				_n_f = write(n_f_cb);
+				_n_t = write(n_t_cb);
+
 				n_f_cb->at(cm.from) = piececode();
 
 				//place the traveling piece
-				n_t_cb->at(cm.to);
+				n_t_cb->at(cm.to) = pc;
 			}
 			return true;
 		}
 
 		//conversions
 		//produces a "Timelines" object
-		//TODO: support even timelined games
+		//TODO: restructure the json result
 		inline explicit operator nlohmann::json() const
 		{
 			nlohmann::json timelines;
+
+			vertical::const_iterator zero_l = _board_list.at(0);
 
 			//take each timeline
 			for (vertical::const_iterator timeline = _board_list.begin(); timeline < _board_list.end(); timeline++)
@@ -392,9 +397,17 @@ namespace game
 				//the timeline array
 				nlohmann::json tl_arr = nlohmann::json::array();
 
+				//count the number of nulls to write
+				int num_blanks = timeline->begin_idx() - zero_l->begin_idx();
+				while (num_blanks > 0)
+				{
+					tl_arr.push_back((nlohmann::json)nullptr);
+					tl_arr.push_back((nlohmann::json)nullptr);
+					num_blanks--;
+				}
+				
 				//find L - who cares about speed anyways
 				index_val L_num = timeline - _board_list.zero();
-				
 				std::string tag = write(timeline_label(L_num));
 
 				//take each board and add it to the list
@@ -403,11 +416,13 @@ namespace game
 					horizontal::const_iterator board_pair = timeline->begin() + i;
 
 					//check that the array contains the right number of elements
+					/*
 					if (tl_arr.size() != 2 * i)
 						throw -1;
+					*/
 
 					//convert each board to a string
-					if (board_pair->first == nullptr)
+					if (board_pair->first.get() == nullptr)
 					{
 						//im just gonna trust that this works
 						tl_arr.push_back((nlohmann::json)nullptr);
