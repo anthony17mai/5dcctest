@@ -3,12 +3,13 @@
 
 #include <iostream>
 #include <json.hpp>
-#include <str_split.h>
-#include <casefreecmp.h>
+#include "str_split.h"
+#include "casefreecmp.h"
 #include <fstream>
 #include <filesystem>
 #include "state5d.h"
 #include "state5dparser.h"
+
 #include "symbol_lookup_table.h"
 
 using namespace nlohmann;
@@ -16,58 +17,6 @@ using namespace nlohmann;
 //5dcc [-s, -h, -5dpgn_version=number] <-root_chessboard-> <5dpgn> <out_file>
 int main(int argc, char* argv[])
 {
-	/*
-	enum
-	{
-		//ROOT_CHESSBOARD,
-		PGN,
-		OUT_FILE,
-		NUM_ARGS
-	};
-
-	bool soft_compile = false;
-	int argument_num = 0;
-	std::string files[NUM_ARGS];
-
-	//command line parsing
-	for (int i = 1; argument_num < NUM_ARGS; i++)
-	{
-		std::string str = argv[i];
-
-		if (str[0] == '-')
-		{
-			//option
-			if (AM_common::casefreeeqq()(str, "-s"))
-			{
-				//soft compile
-				soft_compile = true;
-			}
-			else if (AM_common::casefreeeqq()(str, "-h"))
-			{
-				//hard compile
-				soft_compile = false;
-			}
-		}
-		else
-		{
-			//parameter
-			files[argument_num] = str;
-
-			argument_num++;
-		}
-
-		if (i < argc)
-			continue;
-		else
-		{
-			std::cout << "usage: 5dcc [-s, -h, -5dpgn_version=number] <-root_chessboard-> <5dpgn> <out_file>" << std::endl;
-			return 1;
-		}
-	}
-
-	//open the 5dpgn	
-	std::ifstream pgn(files[PGN]);
-	*/
 	using namespace game;
 
 	std::filesystem::path wd = std::filesystem::current_path();

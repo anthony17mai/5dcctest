@@ -1,3 +1,6 @@
 [submodule "5dChessCompiler\\AM_common"]
 	path = 5dChessCompiler\\AM_common
 	url = https://github.com/anthony17mai/AM-common
+[submodule "5dChessCompiler/AM_common"]
+	path = 5dChessCompiler/AM_common
+	url = https://github.com/anthony17mai/AM-common

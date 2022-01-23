@@ -1,4 +1,3 @@
-#include "pch.h"
 #include "CppUnitTest.h"
 
 #include "many_chessmove.h"
@@ -10,6 +9,7 @@
 #include "state5dparser.h"
 #include <fstream>
 #include <filesystem>
+
 #include "symbol_lookup_table.h"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
