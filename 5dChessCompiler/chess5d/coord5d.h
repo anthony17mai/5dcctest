@@ -1,4 +1,7 @@
 #pragma once
+#include <utility>
+#include "op_struct.h"
+#include "game_parse.h"
 
 namespace game
 {
@@ -25,9 +28,19 @@ namespace game
 		pair() : c(0), r(0) {}
 	};
 
-	typedef pair<uint8_t> coord;
-
-	//parser for coord
+	//typedef pair<uint8_t> coord;
+	struct coord : pair<uint8_t>
+	{
+		using pair<uint8_t>::pair;
+	};
+	coord operator-(coord l, coord r)
+	{
+		return coord(l.c - r.c, l.r - r.r);
+	}
+	coord operator+(coord l, coord r)
+	{
+		return coord(l.c + r.c, l.r + r.r);
+	}
 	template<> struct parser<coord>
 	{
 		parse_container<coord> operator()(std::istream& str)
@@ -76,12 +89,12 @@ namespace game
 		inline T_idx_t(int raw, int) : _val(raw) { }
 	};
 
-	struct board_id_t : public std::pair<int, int>
+	struct board_id_t : public AM_common::util::npmk_pair<int, int, int>
 	{
 		using PARSE_MODE_PGN = standard_mode_tag;
 		struct PARSE_MODE_JSON {};
 
-		using std::pair<int, int>::pair;
+		using AM_common::util::npmk_pair<int, int, int>::npmk_pair;
 	};
 
 	struct timeline_number
@@ -247,3 +260,12 @@ namespace game
 		coord5d(coord c, board_id_t id, bool is_white_board) : _coord(c), _board_id(id), is_white_board(is_white_board) {}
 	};
 }
+
+template<> struct std::hash<game::coord>
+{
+	inline size_t operator()(game::coord c)
+	{
+		return c.c ^ (c.r << 4 * sizeof(size_t));
+	}
+};
+template<> struct std::hash<game::board_id_t> : AM_common::util::def_pair_hash<int, int> {};

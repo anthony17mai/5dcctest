@@ -41,13 +41,40 @@ namespace game
 	{
 		parse_container<many_chessmove> operator()(std::istream& str)
 		{
+			auto skipspaceandcomments = [](std::istream& str)
+			{
+				while (true)
+				{
+					if (isspace(str.peek()))
+					{
+						str.get();
+						continue;
+					}
+					else if (str.peek() == '{')
+					{
+						//comment
+						while (str.peek() != '}')
+						{
+							str.get();
+						}
+						str.get();
+						continue;
+					}
+					else
+					{
+						//text
+						break;
+					}
+				}
+			};
+
 			parse_container<many_chessmove> container;
 
 			std::string move_number;
 			std::getline(str, move_number, '.');
 			int move_num = std::stoi(move_number);
 
-			while (isspace(str.peek())) str.get();
+			skipspaceandcomments(str);
 			
 			while (str.good() && str.peek() != '/')
 			{
@@ -58,7 +85,7 @@ namespace game
 				if (str.fail()) return container;
 
 				//make sure to skip ws just in case
-				while (isspace(str.peek())) str.get();
+				skipspaceandcomments(str);
 			}
 
 			if (str.peek() == '/')
@@ -73,7 +100,7 @@ namespace game
 				return container;
 			}
 
-			while (isspace(str.peek())) str.get();
+			skipspaceandcomments(str);
 
 			//read chessmoves until end of stream
 			while (str.good())
@@ -83,7 +110,7 @@ namespace game
 				container.moves_black.push_back(cm);
 
 				//make sure to skip ws
-				while (isspace(str.peek())) str.get();
+				skipspaceandcomments(str);
 			}
 
 			container.parse_success = true;

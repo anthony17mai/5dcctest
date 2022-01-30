@@ -389,10 +389,10 @@ namespace game
 		{
 			nlohmann::json timelines;
 
-			vertical::const_iterator zero_l = _board_list.at(0);
+			const_L_iter zero_l = _board_list.at(0);
 
 			//take each timeline
-			for (vertical::const_iterator timeline = _board_list.begin(); timeline < _board_list.end(); timeline++)
+			for (const_L_iter timeline = _board_list.begin(); timeline < _board_list.end(); timeline++)
 			{
 				//the timeline array
 				nlohmann::json tl_arr = nlohmann::json::array();
@@ -413,7 +413,7 @@ namespace game
 				//take each board and add it to the list
 				for (size_t i = 0; i < timeline->size(); i++)
 				{
-					horizontal::const_iterator board_pair = timeline->begin() + i;
+					const_T_iter board_pair = timeline->begin() + i;
 
 					//check that the array contains the right number of elements
 					/*
